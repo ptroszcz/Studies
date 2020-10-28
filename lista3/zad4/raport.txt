@@ -1,0 +1,4 @@
+Utworzono potok poleceniem:
+mknod FIFO p
+Na czterech terminalach uruchomilem skrypt write.sh, który rozpoczyna pisanie do potoku FIFO. Na innych czterech terminalach uruchomilem skrypt read.sh, który czyta z potoku FIFO.
+Po wprowadzaniu wartości do dowolnego terminala z uruchomionym skryptem write.sh wpisywana wartość odczytywana była na jednym z terminali ze skryptem read.sh. To który z nich odczytał wydawało się losowo, jednak czasami jeden z terminalow otrzymywal bardzo wiele pod rzad wartosci. Dopiero przy szybkim wrowadzaniu danych powracalo losowe przydzielanie wartosci. Sytuacja ta powtorzyla sie wielokrotnie wiec nie moze byc to kwestia przypadku po szansa na to jest zbyt mala.
