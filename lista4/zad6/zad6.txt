@@ -1,0 +1,59 @@
+Skompilowano program hw.c a nastepnie poleceniem 'strace -o wynik.txt ./a.out'
+przekierowano wynik dzialania tego polecenia do pliku wynik.txt. Omówienie wywolan
+systemowych dla programu wyswietlajacego "Hello world" na stdout:
+'execve("./a.out", ["./a.out"], 0x7ffd9a570910 /* 50 vars */) = 0'
+Pierwsza nazwa w nawiasie okresla wykonywane wywolanie systemowe. Tekst w nawiasach
+to miejsce na argumenty wywolania. Liczba po '=' tp wartosc zwracana przez wywolanie
+systemowe execve, czyli w powyzszym przypadku to '0'.
+Nastepna linia:
+brk(NULL)                               = 0x55b2d3277000
+Polecenie systemowe brk(NULL) zmienia lokalizacje przerwania programu, ktory okresla
+koniec segmentu danych procesu(w tym przypadku na NULL).
+Nastepna linia:
+access("/etc/ld.so.nohwcap", F_OK)      = -1 ENOENT (No such file or directory)
+Polecenie access sprawdza prawa uzytkownika do wskazanego pliku. Nastepnie pojawia
+sprawdzenie dostepnosci jako F_OK albo jedna lub kilka masek R_OK, W_OK, X_OK. Oznaczaja
+one kolejno odczyt, zapis, wykonywanie. W przypadku powodzenia zwraca 0, w przypadku
+jakiegokolwiek bledu zwraca -1(czyli tak jak w przypadku badanego programu otrzymano
+-1 i informacje ze taki plik ani lokalizacja nie istnieje).
+Polecenie:
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+Otwiera podany plik wzgledem deskryptora pliku i zwraca numer nowego deskryptora plikow.
+W tym przyapdku o numerze 3(0,1,2 sa zarezerwowane dla stdint, stdout oraz stderr).
+Polecenie:
+fstat(3, {st_mode=S_IFREG|0644, st_size=88129, ...}) = 0
+Sprawdza status deskryptora plikow o podanym numerze(w tym przypadku 3). st_mode okresla
+co bedzie sprawdzane(S_IFREG - sprawdza czy jest to zwykly plik), st_size - definiuje
+wielkosc pliku. Jezeli wszystko zakonczylo sie powodzeniem zwracane jest zero, jezeli
+nie to -1. W badanym przypadku zwrocono 0.
+mmap(NULL, 88129, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7f442b3e6000
+Polecenie mmap mapuje pliki lub urzadzenia do pamieci.
+close(3)
+Polecenie to zamyka deskryptor plikow o numerze 3.
+Nastepnie otrzymano ponowne sprawdzenie praw do pliku, otworzenie nowego deskryptora
+plikow oo numerze 3(poprzedni o tym numerze zostal zamkniety). Polecenie
+read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\260\34\2\0\0\0\0\0"..., 832) = 832
+pozwala na czytanie z dekryptora plikow o numerze 3. Zwracana liczba to liczba
+przeczytanych bajtow. Zwrocenie -1 oznaczalo by blad. Nastepnie w programie znowu
+sprwadzany jest status deskryptora plikow o numerze 3, nastepnie sa wywolane polecenia
+zwiazane z mapowaniem oraz polecenie :
+mprotect(0x7f442afcb000, 2097152, PROT_NONE) = 0
+Ustawia ono zabezpieczenia na wskazana czesc pamieci. Zwrocone zero oznacza poprawne
+wykonanie sie. Po tym wszystkim deskryptor plikow o numerze 3 zostaje zamkniety.
+arch_prctl(ARCH_SET_FS, 0x7f442b3e54c0) = 0
+Polecenie to tworzy konkretna architektore watkow. Nastepnie wywolane sa trzy
+polecenia zapezpieczajace pamiec. Polecenie:
+munmap(0x7f442b3e6000, 88129)           = 0
+usuwa mapowanie wskazanych plikow lub urzadzen do pamieci. Nastepnie sprawdzany
+jest deskryptor plikow o numerze 1(czyli stdout). Nastepnie polecenia brk zmieniaja
+wielkosc segmentu danych.
+Nastepnie:
+write(1, "Hello world!\n", 13)          = 13
+Polecenie wypisuje na deskryptor plikow o numerze 1(stdout) napis "Hello world!\n"
+zawierajacy 13 znakow i zwraca jest wartosc wypisanych znakow. Nastepnie polecenie:
+exit_group(0)                           = ?
++++ exited with 0 +++
+zamyka wszystkie watki w procesie i zwraca na koniec swojego dzialania zero.
+Dzialania poszczgolnych polecen systemowych byly sprawdzane za pomoca polecenia:
+man 2 nazwa_polecenia
+Wyswietlalo to instrukcje polecenia systemowego(co oznacza 2) o nazwie 'nazwa_polecenia'.

@@ -1,0 +1,16 @@
+Za pomoca polecenia:
+strace -o trbash.txt -e trace=open,access,read,openat bash
+wyswietlono wszystkie pliki jakie otwiera(open), sprawdza dostep(access) oraz
+czyta(read) powloka bash przy uruchamianiu. Wyniki polecenia zawarto w pliku
+trbash.txt. Nastepnie wykorzystujac polecenie:
+cat trbash.txt | grep open | grep conf
+mozemy znalezc wszystkie pliki, ktore otwiera powloka zawierajaca w sobie
+conf co oznacza plik konfiguracyjny.
+Wynik polecenia:
+openat(AT_FDCWD, "/etc/nsswitch.conf", O_RDONLY|O_CLOEXEC) = 3
+Polecenie:
+cat trbash.txt | grep read | grep conf
+wyswietla pliki zawierajace 'conf', z ktorych powloka cos czyta(lub probuje
+czytac). Wynik polecenia:
+read(3, "# /etc/nsswitch.conf\n#\n# Example"..., 4096) = 556
+

@@ -1,0 +1,14 @@
+Analizujać wynik programu strace dla programu wypisującego na standardowe
+wyjscie "Hello world!\n" za pomoca polecenia:
+strace -e trace=desc ./a.out
+mozna odczytac:
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+close(3)                                = 0
+Oznacza to, że poza podstawowymi trzema deskyptorami plikow podczas
+wywolywania tego programu otwarte zostaje jeszcze dwa, jednak w taki sposob,
+ze oba nie sa otwarte w tym samym momencie. Daje to maksymalnie 4 otwarte
+deskryptory plikow w programie. Podczas wykonywania samej operacji wypisywania
+napisu na standardowym wyjsciu otwarte sa tylko trzy podstawowe deskryptory
+plikow.
