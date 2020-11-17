@@ -1,0 +1,13 @@
+Uzyto polecenia:
+strace -o wynik.txt ./a.out
+Odczytano z dwoch ostatnich linii:
+--- SIGSEGV {si_signo=SIGSEGV, si_code=SEGV_MAPERR, si_addr=0x5611ba588000} ---
++++ killed by SIGSEGV (core dumped) +++
+Oznacza to, ze program zostal zabity sygnalem SIGSEV.
+Odnaleziono w programie:
+mmap(0x7f6d250d5000, 15072, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7f6d250d5000
+W polu fd oznaczajacym filedescriptor jest wpisane -1, co jest wlasnie zrodlem
+bledu w badanym programie.
+Aby wyswietlic czas wykonania poszczegolnych elementow programu nalezy
+uzyc flagi -r (czas mierzony miedzy poczatkami kolejnych wywolan) lub flagi
+-T(czas mierzony miedzy poczatkiem a koncem danego wywolania systemowego).
