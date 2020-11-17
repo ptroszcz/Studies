@@ -1,0 +1,16 @@
+Poleceniem 'man strace' wyswietlono interukcje polecenia strace.
+Najwazniejsze opcje to:
+ - '-o' pozwala zapisac dane wyjsciowe polecenia strace do pliku o nazwie
+ podanej po tej fladze zamiast na stderr
+ - '-v' dostarcza dodatkowe informacje o kozdym wywolaniu systemowym
+ - '-f' pozwala na sledzenie wszystkich procesow potomnych aktualnie sledzonego
+ procesu utworzonych za pomoca polecen fork(2), vfork(2) i clone(2)
+ - '-c' pozwala uzyskac dla kazdego wywolania systemoweg, liczbe ich
+ uruchomien, czas spedzony na wywolanie kazdego z nich oraz bledy
+ - '-e trace=' pozwala podac po '=' informcaje ktore nas interesuja, np.
+ 'strace -e trace=access'
+wyswietli wszystkie linie zwiazane ze slowem 'access', czyli pliki do ktorych sprawdzane
+byly prawa dostepu
+ - '-p' pozwala dolaczyc do procesu o podanym PID i rozpoczac sledzenie
+ - '-t' kazdy wiersz wynikowy od polecenia bedzie poprzedzony godzina zegarowa
+ - '-r' wyswietla czas jaki byl potrzebny na wykonanie kolejnych wywolan systemowych
