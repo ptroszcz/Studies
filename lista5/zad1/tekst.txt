@@ -1,0 +1,1 @@
+To jest przykladowy tekst do wysylania w paczce.Pisze tu losowe slowa, aby przeprowadzic potem testy.Przykladowo wielkosc bufora ustalilem jako 14 a teraz robie testy.
