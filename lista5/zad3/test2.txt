@@ -1,0 +1,2 @@
+To jest przykladowy tekst numer 2.
+Testowy plik numer 2;

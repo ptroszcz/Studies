@@ -1,0 +1,3 @@
+Test numer 1.
+Sprawdzam czy czyta plik numer jeden.
+TO jest test pliku pierwszego.
