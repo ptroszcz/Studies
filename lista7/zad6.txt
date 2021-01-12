@@ -1,0 +1,4 @@
+Problemem w programie bug2.c jest fakt, że wykorzystywany stos zostaje
+przepelniony przez tablice A, poniewaz jest ona zbyt duza. Mozna to rozwiazac
+poprzez zmiane rozmiaru stosu danego watku. Rozwiazanie to zastosowano w
+programie bug2fix.c.
